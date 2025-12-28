@@ -14,7 +14,8 @@ echo "========================================"
 echo ""
 
 # Build and push with all tags
-VERSION=$VERSION DATE_TAG=$DATE_TAG docker buildx bake --push
+# IMPORTANT: Must use --file to avoid docker-compose.yml conflict (no build section)
+VERSION=$VERSION DATE_TAG=$DATE_TAG docker buildx bake --file docker-bake.hcl --push
 
 echo ""
 echo "========================================"
