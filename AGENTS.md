@@ -120,3 +120,70 @@ kairin/bases:comfyui-rtx5090-latest   # Development (mutable)
 | Out of VRAM | Reduce `--reserve-vram` or use `--lowvram` flag |
 | Model not found | Verify paths in `extra_model_paths.yaml` |
 | Permission denied | Container runs as UID 10001, ensure host dirs are accessible |
+
+## Sub-Agent Architecture
+
+This project uses a 5-tier, 24-agent system for AI-assisted development. Agents are defined in `.claude/agents/`.
+
+### Tier 0: Workflow Automation (Haiku)
+
+Quick daily automation triggers:
+
+| Agent | Trigger | Purpose |
+|-------|---------|---------|
+| `000-health` | "Check health" | Docker/GPU/container status |
+| `000-build` | "Build version" | Run build-push.sh |
+| `000-commit` | "Commit changes" | Conventional git commits |
+| `000-deps` | "Check deps" | Dependency scan |
+| `000-cleanup` | "Clean Docker" | Prune images/cache |
+
+### Tier 1: Orchestrators
+
+| Agent | Model | Purpose |
+|-------|-------|---------|
+| `001-orchestrator` | Opus | Master task coordination |
+| `001-release` | Sonnet | Release workflow |
+
+### Tier 2: Core Domain Specialists (Sonnet)
+
+| Agent | Domain | Key Files |
+|-------|--------|-----------|
+| `002-docker` | Build system | Dockerfile, compose |
+| `002-cuda` | GPU optimization | start.sh |
+| `002-nodes` | Custom nodes | Dockerfile |
+| `002-models` | Model paths | extra_model_paths.yaml |
+| `002-deps` | Dependencies | requirements_frozen.txt |
+| `002-git` | Version control | .version |
+
+### Tier 3: Utility Support (Sonnet/Haiku)
+
+| Agent | Purpose |
+|-------|---------|
+| `003-cicd` | GitHub Actions workflows |
+| `003-docs` | Documentation sync |
+| `003-perf` | Performance benchmarking |
+| `003-security` | CVE scanning, hardening |
+| `003-compose` | Compose variants |
+
+### Tier 4: Atomic Children (Haiku)
+
+Located in `.claude/agents/children/`:
+
+| Agent | Parent | Purpose |
+|-------|--------|---------|
+| `020-dockerfile` | 002-docker | Dockerfile edits |
+| `021-compose` | 002-docker | Compose tweaks |
+| `022-bake` | 002-docker | Tag management |
+| `023-sage` | 002-cuda | SageAttention config |
+| `024-fp8` | 002-cuda | FP8 precision |
+| `025-tensorrt` | 002-cuda | TensorRT setup |
+| `026-clone` | 002-nodes | Clone nodes |
+| `027-reqs` | 002-nodes | Collect requirements |
+| `028-verify` | 002-nodes | Verify installation |
+| `029-freeze` | 002-deps | Pin versions |
+| `030-conflict` | 002-deps | Conflict detection |
+| `031-security` | 002-deps | CVE check |
+
+### Agent Configuration
+
+Tool permissions are defined in `.claude/settings.local.json`.

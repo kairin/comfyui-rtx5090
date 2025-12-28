@@ -140,11 +140,14 @@ RUN source ${VENV_DIR}/bin/activate && \
     python -m pip install --no-cache-dir sageattention
 
 # -----------------------------------------------------------------------------
-# Install TensorRT for CUDA 12.8
+# Install TensorRT for CUDA 12.8 (Blackwell requires TensorRT 10.7+)
+# NOTE: As of TensorRT 10.7, GroupNormalizationPlugin is NOT supported on
+# Blackwell. Use TensorRT's native INormalizationLayer instead.
+# See: https://github.com/nvidia/tensorrt/blob/main/plugin/groupNormalizationPlugin/README.md
 # -----------------------------------------------------------------------------
 RUN source ${VENV_DIR}/bin/activate && \
-    echo "Installing TensorRT for CUDA 12.8..." && \
-    python -m pip install --no-cache-dir tensorrt torch_tensorrt \
+    echo "Installing TensorRT 10.7+ for CUDA 12.8 (Blackwell compatible)..." && \
+    python -m pip install --no-cache-dir "tensorrt>=10.7" "torch_tensorrt>=2.5" \
     --extra-index-url https://pypi.nvidia.com || \
     echo "Warning: TensorRT installation had issues, continuing..."
 

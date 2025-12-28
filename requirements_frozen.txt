@@ -1,11 +1,11 @@
 # =============================================================================
-# ComfyUI Requirements - Optimized for RTX 5090 (Blackwell) + CUDA 13.0
+# ComfyUI Requirements - Optimized for RTX 5090 (Blackwell) + CUDA 12.8
 # =============================================================================
 # NOTE: Core packages installed separately in Dockerfile:
-#   - torch, torchvision, torchaudio (2.9.0+cu130)
+#   - torch, torchvision, torchaudio (2.9.0+cu128)
 #   - triton
 #   - flash_attn (community Blackwell wheel)
-#   - tensorrt-cu13, torch_tensorrt
+#   - tensorrt, torch_tensorrt (NVIDIA PyPI)
 #   - sageattention
 # =============================================================================
 

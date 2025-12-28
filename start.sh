@@ -89,10 +89,16 @@ else
     echo "   ⚠️  SageAttention not available (will use fallback)"
 fi
 
-# Check TensorRT
+# Check TensorRT (Blackwell requires 10.7+)
 if python -c "import tensorrt" > /dev/null 2>&1; then
     TRT_VERSION=$(python -c "import tensorrt; print(tensorrt.__version__)")
-    echo "   ✓ TensorRT: $TRT_VERSION"
+    TRT_MAJOR=$(echo "$TRT_VERSION" | cut -d. -f1)
+    TRT_MINOR=$(echo "$TRT_VERSION" | cut -d. -f2)
+    if [ "$TRT_MAJOR" -ge 10 ] && [ "$TRT_MINOR" -ge 7 ]; then
+        echo "   ✓ TensorRT: $TRT_VERSION (Blackwell compatible)"
+    else
+        echo "   ⚠️  TensorRT: $TRT_VERSION (Blackwell requires 10.7+)"
+    fi
 else
     echo "   ⚠️  TensorRT not available"
 fi
@@ -105,13 +111,21 @@ python -c "import transformers; print(f'   ✓ transformers: {transformers.__ver
 echo "-----------------------------------------------------"
 
 # -----------------------------------------------------------------------------
-# GPU Information
+# GPU Information and Architecture Verification
 # -----------------------------------------------------------------------------
 echo "🖥️  GPU Information:"
 if command -v nvidia-smi &> /dev/null; then
     nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv,noheader 2>/dev/null | while read line; do
         echo "   $line"
     done
+
+    # Verify Blackwell architecture (sm_120)
+    GPU_ARCH=$(python -c "import torch; print(torch.cuda.get_device_capability()[0] * 10 + torch.cuda.get_device_capability()[1])" 2>/dev/null || echo "unknown")
+    if [ "$GPU_ARCH" = "120" ]; then
+        echo "   ✓ GPU Architecture: sm_120 (Blackwell) - Optimizations enabled"
+    elif [ "$GPU_ARCH" != "unknown" ]; then
+        echo "   ℹ️  GPU Architecture: sm_$GPU_ARCH (Expected sm_120 for RTX 5090)"
+    fi
 else
     echo "   nvidia-smi not available"
 fi
