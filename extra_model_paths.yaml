@@ -1,0 +1,49 @@
+# =============================================================================
+# ComfyUI External Model Paths Configuration
+# Maps /srv/models (mounted at /mnt/models_host) to ComfyUI model types
+# =============================================================================
+
+external_storage:
+    base_path: /mnt/models_host
+
+    # Core model types
+    checkpoints: checkpoints
+    loras: loras
+    vae: vae
+    clip: clip
+    clip_vision: clip_vision
+    controlnet: controlnet
+    embeddings: embeddings
+    diffusion_models: diffusion_models
+    text_encoders: text_encoders
+
+    # Upscalers
+    upscale_models: upscale_models
+
+    # Face processing
+    insightface: insightface
+    facerestore_models: facerestore_models
+    facedetection: facedetection
+    instantid: instantid
+    pulid: pulid
+    ipadapter: ipadapter
+
+    # Depth models
+    depthanything: depthanything
+
+    # GGUF quantized models (maps to diffusion_models)
+    unet: diffusion_models
+
+    # Diffusers format models
+    diffusers: diffusers
+
+    # Style/other
+    style_models: style_models
+    hypernetworks: hypernetworks
+    gligen: gligen
+
+    # Ultralytics/YOLO for detection
+    ultralytics: ultralytics
+
+    # VAE approximations (TAESD for fast previews)
+    vae_approx: vae_approx

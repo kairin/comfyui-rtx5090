@@ -1,0 +1,63 @@
+# =============================================================================
+# Docker Build Context Exclusions
+# Prevents sensitive files from being included in Docker build context
+# =============================================================================
+
+# Secrets - NEVER include in build context
+.env
+.env.*
+*.pem
+*.key
+*.crt
+secrets/
+credentials/
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Claude/AI
+.claude/
+
+# Build artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Logs
+*.log
+logs/
+
+# Local development
+-collected/
+_old/
+
+# Documentation (not needed in image)
+*.md
+LICENSE
+CHANGELOG
+
+# Test files
+tests/
+test/
+*_test.py
+test_*.py
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

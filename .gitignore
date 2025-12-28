@@ -1,0 +1,56 @@
+# =============================================================================
+# Git Ignore - ComfyUI Docker Setup
+# =============================================================================
+
+# Secrets - NEVER commit
+.env
+.env.*
+!.env.example
+secrets/
+*.pem
+*.key
+*.crt
+credentials/
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.Python
+venv/
+.venv/
+
+# Claude/AI
+.claude/
+
+# Local development
+-collected/
+_old/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Docker build cache (if using BuildKit)
+.docker/
+
+# OS files
+Thumbs.db
