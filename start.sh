@@ -138,7 +138,7 @@ echo "✨ Launching ComfyUI with Blackwell optimizations..."
 echo ""
 echo "   Flags:"
 echo "   --use-sage-attention   (2-3x attention speedup)"
-echo "   --fp8-unet --fp8-te    (FP8 on Blackwell Tensor Cores)"
+echo "   --fp8_e4m3fn-unet/text-enc (FP8 on Blackwell Tensor Cores)"
 echo "   --fast fp16_accumulation (15-25% matmul boost)"
 echo "   --highvram             (keep models in 32GB VRAM)"
 echo "   --reserve-vram 2       (reserve 2GB for OS)"
@@ -153,8 +153,8 @@ $VENV_PYTHON main.py \
     --port 8188 \
     --enable-cors-header \
     --use-sage-attention \
-    --fp8-unet \
-    --fp8-te \
+    --fp8_e4m3fn-unet \
+    --fp8_e4m3fn-text-enc \
     --fast fp16_accumulation \
     --highvram \
     --reserve-vram 2 \
@@ -170,7 +170,7 @@ echo "====================================================="
 echo "ComfyUI process has finished or was stopped."
 echo ""
 echo "To restart manually:"
-echo "  $VENV_PYTHON main.py --listen --port 8188 --enable-cors-header --use-sage-attention --fp8-unet --fp8-te --fast fp16_accumulation --highvram"
+echo "  $VENV_PYTHON main.py --listen --port 8188 --enable-cors-header --use-sage-attention --fp8_e4m3fn-unet --fp8_e4m3fn-text-enc --fast fp16_accumulation --highvram"
 echo ""
 echo "Type 'exit' to close (this will stop the container)."
 echo "====================================================="
