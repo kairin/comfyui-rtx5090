@@ -83,3 +83,8 @@ multidict==6.2.0
 
 # Security fixes
 filelock>=3.20.1  # CVE-2025-68146 TOCTOU race condition fix
+
+# Core ComfyUI dependencies (verified via Context7)
+pyyaml>=6.0
+yarl>=1.18.0
+httpx>=0.24.0
