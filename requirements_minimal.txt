@@ -1,0 +1,45 @@
+# =============================================================================
+# ComfyUI Minimal Requirements - For NGC PyTorch Base
+# =============================================================================
+# NOTE: NGC PyTorch 25.12 already provides:
+#   - torch, torchvision (2.10.0a0)
+#   - triton
+#   - numpy
+#   - Pillow
+#   - scipy
+# torchaudio needs to be installed separately for audio nodes
+# =============================================================================
+
+# Audio support - DO NOT install, it overwrites NGC's PyTorch and breaks flash_attn
+# torchaudio is not available for PyTorch 2.10.0a0 (NGC version)
+# Audio nodes will be disabled until NGC includes torchaudio
+
+# ComfyUI Frontend & Templates (official packages)
+comfyui-frontend-package>=1.35.9
+comfyui-workflow-templates>=0.7.64
+comfyui-embedded-docs>=0.3.1
+
+# Core ComfyUI dependencies (from official requirements.txt)
+torchsde
+transformers>=4.50.3
+tokenizers>=0.13.3
+einops
+sentencepiece
+safetensors>=0.4.2
+aiohttp>=3.11.8
+yarl>=1.18.0
+pyyaml
+tqdm
+psutil
+alembic
+SQLAlchemy
+av>=14.2.0
+kornia>=0.7.1
+spandrel
+pydantic>=2.0
+pydantic-settings>=2.0
+
+# Additional dependencies for full functionality
+huggingface-hub>=0.20.0
+accelerate>=0.29.0
+diffusers>=0.33.0

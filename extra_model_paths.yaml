@@ -44,6 +44,37 @@ external_storage:
 
     # Ultralytics/YOLO for detection
     ultralytics: ultralytics
+    yolo: yolo
+    yolo_world: yolo_world
 
     # VAE approximations (TAESD for fast previews)
     vae_approx: vae_approx
+
+    # LLM and Vision-Language models
+    LLM: LLM
+    llm: LLM
+
+    # Depth and 3D models
+    depth: depth
+    deepbump: deepbump
+    moge: MoGe
+
+    # Detection models
+    groundingdino: groundingdino
+    sams: sams
+    rams: rams
+
+    # Additional model types
+    photomaker: photomaker
+    karlo: karlo
+    onnx: onnx
+    configs: configs
+    tunable: tunable
+    nsfw_detector: nsfw_detector
+
+    # Specialized models
+    face_upscalers_onnx: Face-Upscalers-onnx
+    janus: Janus-Pro
+
+    # Reactor (for face swap compatibility)
+    reactor: reactor

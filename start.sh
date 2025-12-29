@@ -50,23 +50,15 @@ echo "   ✓ Thread count: 16"
 echo "-----------------------------------------------------"
 
 # -----------------------------------------------------------------------------
-# Virtual Environment Setup
+# Python Environment (NGC container uses system Python)
 # -----------------------------------------------------------------------------
-VENV_PYTHON="/opt/comf/.venv/bin/python3"
-VENV_ACTIVATE="/opt/comf/.venv/bin/activate"
-FROZEN_REQUIREMENTS_PATH="/opt/comf/requirements_frozen.txt"
+echo "📦 Verifying Python environment (NGC PyTorch container)..."
 
-echo "📦 Verifying Python virtual environment..."
-
-# Activate venv and verify pip
-source "$VENV_ACTIVATE"
-if ! python -m pip --version > /dev/null 2>&1; then
-    echo "⚠️  pip not found, attempting to ensure it..."
-    python -m ensurepip || { echo "❌ Failed to ensure pip. Exiting."; exit 1; }
+# NGC container uses system Python, no venv needed
+if ! python --version > /dev/null 2>&1; then
+    echo "❌ Python not found!"
+    exit 1
 fi
-
-# Upgrade pip silently
-python -m pip install --upgrade pip setuptools wheel > /dev/null 2>&1 || true
 
 # -----------------------------------------------------------------------------
 # Package Verification
@@ -148,7 +140,7 @@ echo "====================================================="
 
 cd /opt/comf
 
-$VENV_PYTHON main.py \
+python main.py \
     --listen \
     --port 8188 \
     --enable-cors-header \
@@ -159,7 +151,6 @@ $VENV_PYTHON main.py \
     --highvram \
     --reserve-vram 2 \
     --preview-method taesd \
-    --extra-model-paths-config /opt/comf/extra_model_paths.yaml \
     --output-directory /mnt/output_host
 
 # -----------------------------------------------------------------------------
@@ -170,7 +161,7 @@ echo "====================================================="
 echo "ComfyUI process has finished or was stopped."
 echo ""
 echo "To restart manually:"
-echo "  $VENV_PYTHON main.py --listen --port 8188 --enable-cors-header --use-sage-attention --fp8_e4m3fn-unet --fp8_e4m3fn-text-enc --fast fp16_accumulation --highvram"
+echo "  python main.py --listen --port 8188 --enable-cors-header --use-sage-attention --fp8_e4m3fn-unet --fp8_e4m3fn-text-enc --fast fp16_accumulation --highvram"
 echo ""
 echo "Type 'exit' to close (this will stop the container)."
 echo "====================================================="
