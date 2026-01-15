@@ -93,7 +93,8 @@ RUN git clone --depth=1 https://github.com/comfyanonymous/ComfyUI.git .
 
 # -----------------------------------------------------------------------------
 # Install ComfyUI Dependencies with uv
-# NOTE: NGC already provides torch, torchvision, torchaudio, triton, numpy, scipy, Pillow
+# NOTE: NGC already provides torch, torchvision, triton, numpy, scipy, Pillow
+# NOTE: torchaudio is NOT available (NGC lacks headers for source build, ABI mismatch)
 # uv with --system flag installs to system Python without overwriting NGC packages
 # -----------------------------------------------------------------------------
 COPY requirements_minimal.txt ${COMFYUI_BASE_DIR}/requirements_minimal.txt
@@ -107,6 +108,16 @@ RUN echo "Installing ComfyUI dependencies with uv (NGC provides PyTorch stack)..
 # -----------------------------------------------------------------------------
 RUN echo "Installing SageAttention for Blackwell..." && \
     uv pip install --system --no-cache sageattention
+
+# -----------------------------------------------------------------------------
+# Remove audio nodes (torchaudio not available on NGC PyTorch 2.10.0a0)
+# NGC lacks stable C API headers required by torchaudio, and version mismatches
+# prevent using pre-built wheels. Audio nodes are removed to prevent import errors.
+# -----------------------------------------------------------------------------
+RUN echo "Removing audio nodes (torchaudio incompatible with NGC PyTorch)..." && \
+    rm -f ${COMFYUI_BASE_DIR}/comfy_extras/nodes_audio.py \
+          ${COMFYUI_BASE_DIR}/comfy_extras/nodes_audio_encoder.py && \
+    echo "Audio nodes removed - audio workflows not supported"
 
 # -----------------------------------------------------------------------------
 # Verify Core Package Installation

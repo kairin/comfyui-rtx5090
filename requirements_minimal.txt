@@ -7,12 +7,10 @@
 #   - numpy
 #   - Pillow
 #   - scipy
-# torchaudio needs to be installed separately for audio nodes
+# NOTE: torchaudio is NOT available - NGC lacks stable C API headers for
+# source build, and pre-built wheels have ABI mismatch with PyTorch 2.10.0a0.
+# Audio nodes (nodes_audio.py, nodes_audio_encoder.py) are removed in Dockerfile.
 # =============================================================================
-
-# Audio support - DO NOT install, it overwrites NGC's PyTorch and breaks flash_attn
-# torchaudio is not available for PyTorch 2.10.0a0 (NGC version)
-# Audio nodes will be disabled until NGC includes torchaudio
 
 # ComfyUI Frontend & Templates (official packages)
 comfyui-frontend-package>=1.35.9
