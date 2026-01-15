@@ -13,7 +13,7 @@
 segment-anything==1.0
 scikit-image==0.25.2
 piexif==1.1.3
-transformers==4.52.3
+transformers==4.53.0
 opencv-python-headless==4.11.0.86
 GitPython==3.1.44
 scipy==1.15.3
